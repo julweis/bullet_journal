@@ -1,6 +1,7 @@
 class ListsController < ApplicationController
   def index
-    @lists = List.page(params[:page]).per(10)
+    @q = List.ransack(params[:q])
+    @lists = @q.result(:distinct => true).includes(:taggings, :notes).page(params[:page]).per(10)
 
     render("lists/index.html.erb")
   end
