@@ -6,6 +6,7 @@ class NotesController < ApplicationController
   end
 
   def show
+    @tagging = Tagging.new
     @note = Note.find(params[:id])
 
     render("notes/show.html.erb")

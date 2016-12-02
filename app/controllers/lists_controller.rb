@@ -6,6 +6,7 @@ class ListsController < ApplicationController
   end
 
   def show
+    @tagging = Tagging.new
     @list = List.find(params[:id])
 
     render("lists/show.html.erb")

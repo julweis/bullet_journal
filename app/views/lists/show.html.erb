@@ -51,6 +51,29 @@
           </div>
         </li>
       <% end %>
+
+      <li class="list-group-item">
+        <form action="/create_tagging" method="post">
+      <!-- Hidden input for authenticity token to protect from forgery -->
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+      <!-- Label and input for note_id -->
+      <div class="form-group">
+        <label for="note_id" class="control-label">
+          Note
+        </label>
+
+        <%= select_tag(:note_id, options_from_collection_for_select(Note.all, :id, :created_at), :class => "form-control") %>
+      </div>
+
+      <!-- Label and input for list_id -->
+      <input type="hidden" name="list_id" value="<%= @list.id %>">
+
+      <button class="btn btn-block btn-success">
+        Create Tagging
+      </button>
+    </form>
+      </li>
     </ul>
   </div>
 </div>
