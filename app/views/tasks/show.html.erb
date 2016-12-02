@@ -15,7 +15,13 @@
       <dd><%= @task.task_status %></dd>
 
       <dt>User</dt>
-      <dd><%= @task.user_id %></dd>
+      <dd>
+        <% if @task.user.present? %>
+          <a href="/users/<%= @task.user_id %>">
+            <%= @task.user.created_at %>
+          </a>
+        <% end %>
+      </dd>
 
       <dt>Date</dt>
       <dd><%= @task.date %></dd>

@@ -22,7 +22,13 @@
         <td><%= task.task %></td>
         <td><%= task.task_signifier %></td>
         <td><%= task.task_status %></td>
-        <td><%= task.user.created_at %></td>
+        <td>
+          <% if task.user.present? %>
+            <a href="/users/<%= task.user.id %>">
+              <%= task.user.created_at %>
+            </a>
+          <% end %>
+        </td>
         <td><%= task.date %></td>
         <td>
           <a href="/tasks/<%= task.id %>" class="btn btn-primary">Show</a>

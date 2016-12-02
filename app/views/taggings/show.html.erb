@@ -6,10 +6,22 @@
   <div class="col-md-12 mb-2">
     <dl class="dl-horizontal">
       <dt>Note</dt>
-      <dd><%= @tagging.note_id %></dd>
+      <dd>
+        <% if @tagging.note.present? %>
+          <a href="/notes/<%= @tagging.note_id %>">
+            <%= @tagging.note.created_at %>
+          </a>
+        <% end %>
+      </dd>
 
       <dt>List</dt>
-      <dd><%= @tagging.list_id %></dd>
+      <dd>
+        <% if @tagging.category.present? %>
+          <a href="/lists/<%= @tagging.list_id %>">
+            <%= @tagging.category.list %>
+          </a>
+        <% end %>
+      </dd>
 
     </dl>
 

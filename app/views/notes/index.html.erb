@@ -17,7 +17,13 @@
 
       <% @notes.each do |note| %>
       <tr>
-        <td><%= note.user.created_at %></td>
+        <td>
+          <% if note.user.present? %>
+            <a href="/users/<%= note.user.id %>">
+              <%= note.user.created_at %>
+            </a>
+          <% end %>
+        </td>
         <td><%= note.note %></td>
         <td><%= note.date %></td>
         <td>
