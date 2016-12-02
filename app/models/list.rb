@@ -6,6 +6,10 @@ class List < ApplicationRecord
 
   # Indirect associations
 
+  has_many   :notes,
+             :through => :taggings,
+             :source => :note
+
   # Validations
 
 end

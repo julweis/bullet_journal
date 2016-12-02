@@ -8,6 +8,10 @@ class Note < ApplicationRecord
 
   # Indirect associations
 
+  has_many   :lists,
+             :through => :taggings,
+             :source => :category
+
   # Validations
 
 end
