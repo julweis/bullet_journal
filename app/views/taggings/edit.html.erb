@@ -24,7 +24,7 @@
           Note
         </label>
 
-        <input type="text" id="note_id" name="note_id" placeholder="Note" class="form-control" value="<%= @tagging.note_id %>">
+        <%= select_tag(:note_id, options_from_collection_for_select(Note.all, :id, :created_at, @tagging.note_id), :class => "form-control") %>
       </div>
 
       <!-- Label and input for list_id -->
