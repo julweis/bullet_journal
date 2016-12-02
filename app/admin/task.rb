@@ -1,5 +1,7 @@
 ActiveAdmin.register Task do
 
+ permit_params :task, :task_signifier, :task_status, :user_id, :date
+
 # See permitted parameters documentation:
 # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
 #
