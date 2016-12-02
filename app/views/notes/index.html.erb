@@ -17,7 +17,7 @@
 
       <% @notes.each do |note| %>
       <tr>
-        <td><%= note.user_id %></td>
+        <td><%= note.user.created_at %></td>
         <td><%= note.note %></td>
         <td><%= note.date %></td>
         <td>
