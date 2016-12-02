@@ -1,0 +1,73 @@
+<!-- Validation failure messages -->
+<% if @task.errors.any? %>
+  <% @task.errors.full_messages.each do |message| %>
+    <div class="alert alert-dismissable alert-danger">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <%= message %>
+    </div>
+  <% end %>
+<% end %>
+
+<div class="page-header">
+  <h3>Add Task</h3>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <form action="/create_task" method="post">
+      <!-- Hidden input for authenticity token to protect from forgery -->
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+      <!-- Label and input for task -->
+      <div class="form-group">
+        <label for="task" class="control-label">
+          Task
+        </label>
+
+        <input type="text" id="task" name="task" placeholder="Task" class="form-control" value="<%= @task.task %>">
+      </div>
+
+      <!-- Label and input for task_signifier -->
+      <div class="form-group">
+        <label for="task_signifier" class="control-label">
+          Task signifier
+        </label>
+
+        <input type="text" id="task_signifier" name="task_signifier" placeholder="Task signifier" class="form-control" value="<%= @task.task_signifier %>">
+      </div>
+
+      <!-- Label and input for task_status -->
+      <div class="form-group">
+        <label for="task_status" class="control-label">
+          Task status
+        </label>
+
+        <input type="text" id="task_status" name="task_status" placeholder="Task status" class="form-control" value="<%= @task.task_status %>">
+      </div>
+
+      <!-- Label and input for user_id -->
+      <div class="form-group">
+        <label for="user_id" class="control-label">
+          User
+        </label>
+
+        <input type="text" id="user_id" name="user_id" placeholder="User" class="form-control" value="<%= @task.user_id %>">
+      </div>
+
+      <!-- Label and input for date -->
+      <div class="form-group">
+        <label for="date" class="control-label">
+          Date
+        </label>
+
+        <input type="text" id="date" name="date" placeholder="Date" class="form-control" value="<%= @task.date %>">
+      </div>
+
+      <button class="btn btn-success">
+        Create Task
+      </button>
+      or
+      <a href="/tasks">Cancel</a>
+    </form>
+  </div>
+</div>
