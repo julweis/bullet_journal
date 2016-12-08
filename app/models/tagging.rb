@@ -10,5 +10,6 @@ class Tagging < ApplicationRecord
   # Indirect associations
 
   # Validations
-
+validates :note_id,  :presence => true
+validates :list_id,  :presence => true
 end

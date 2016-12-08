@@ -11,5 +11,6 @@ class List < ApplicationRecord
              :source => :note
 
   # Validations
+validates :list,  :presence => true
 
 end

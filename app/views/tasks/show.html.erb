@@ -18,7 +18,7 @@
       <dd>
         <% if @task.user.present? %>
           <a href="/users/<%= @task.user_id %>">
-            <%= @task.user.created_at %>
+            <%= @task.user.username %>
           </a>
         <% end %>
       </dd>

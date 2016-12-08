@@ -9,7 +9,7 @@
 <% end %>
 
 <div class="page-header">
-  <h3>Edit Note #<%= @note.id %></h3>
+  <h3>Edit Note</h3>
 </div>
 
 <div class="row">
@@ -20,11 +20,9 @@
 
       <!-- Label and input for user_id -->
       <div class="form-group">
-        <label for="user_id" class="control-label">
-          User
-        </label>
 
-        <%= select_tag(:user_id, options_from_collection_for_select(User.all, :id, :created_at, @note.user_id), :class => "form-control") %>
+
+        <%= select_tag(:user_id, options_from_collection_for_select(User.all, :id, :created_at, @note.user_id), :class => "hidden") %>
       </div>
 
       <!-- Label and input for note -->
@@ -38,18 +36,48 @@
 
       <!-- Label and input for date -->
       <div class="form-group">
-        <label for="date" class="control-label">
-          Date
-        </label>
 
-        <input type="text" id="date" name="date" placeholder="Date" class="form-control" value="<%= @note.date %>">
+        <input type="hidden" id="date" name="date" placeholder="Date" class="form-control" value="<%= @note.date %>">
       </div>
 
-      <button class="btn btn-warning">
+
+      <!-- Label and input for note_id -->
+      <div class="form-group">  <input type="hidden" name="note_id" value="<%= @note.id %>">
+</div>
+
+
+      <button class="btn btn-default">
         Update Note
       </button>
       or
       <a href="/notes/<%= @note.id %>">Cancel</a>
+
+
     </form>
+
+    <hr>
+
+<form action="/create_tagging" method="post">
+
+  <div class="form-group">
+    <label for="tagging" class="control-label">
+      Add this note to a list
+    </label>
   </div>
+
+    <!-- Hidden input for authenticity token to protect from forgery -->
+    <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+    <!-- Label and input for note_id -->
+    <input type="hidden" name="note_id" value="<%= @note.id %>">
+  <div class="form-group">
+      <%= select_tag(:list_id, options_from_collection_for_select(List.all, :id, :list), :class => "form-control") %>
+    </div>
+
+    <button class="btn btn-default">
+      Add to a list...
+    </button>
+
+  </form>
+
 </div>

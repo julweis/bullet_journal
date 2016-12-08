@@ -9,7 +9,7 @@
 <% end %>
 
 <div class="page-header">
-  <h3>Edit Task #<%= @task.id %></h3>
+  <h3>Edit Task</h3>
 </div>
 
 <div class="row">
@@ -33,7 +33,11 @@
           Task signifier
         </label>
 
-        <input type="text" id="task_signifier" name="task_signifier" placeholder="Task signifier" class="form-control" value="<%= @task.task_signifier %>">
+        <select id="task_signifier" name="task_signifier" placeholder="Task signifier" class="form-control" value="<%= @task.task_signifier %>">
+            <option></option>
+          <option value="prioritize">Prioritize</option>
+          <<option value="explore">Explore</option>
+        </select>
       </div>
 
       <!-- Label and input for task_status -->
@@ -42,28 +46,45 @@
           Task status
         </label>
 
-        <input type="text" id="task_status" name="task_status" placeholder="Task status" class="form-control" value="<%= @task.task_status %>">
+            <select id="task_status" name="task_status" placeholder="Task status" class="form-control" value="<%= @task.task_status %>">
+              <option value="open">Open</option>
+              <option value="complete">Complete</option>
+            </select>
+
       </div>
 
       <!-- Label and input for user_id -->
       <div class="form-group">
-        <label for="user_id" class="control-label">
-          User
-        </label>
 
-        <%= select_tag(:user_id, options_from_collection_for_select(User.all, :id, :created_at, @task.user_id), :class => "form-control") %>
+
+        <%= select_tag(:user_id, options_from_collection_for_select(User.all, :id, :username, @task.user_id), :class => "hidden") %>
       </div>
 
       <!-- Label and input for date -->
-      <div class="form-group">
+        <div class="form-group">
+
         <label for="date" class="control-label">
           Date
         </label>
 
+    <div class="input-group date" id='datetimepicker1'>
         <input type="text" id="date" name="date" placeholder="Date" class="form-control" value="<%= @task.date %>">
+        <span class="input-group-addon">
+    <span class="glyphicon glyphicon-calendar"></span>
+  </span>
+
+</div>
+<script type="text/javascript">
+  $(function () {
+    $('#datetimepicker1').datetimepicker();
+format: 'MM/DD/YYYY'
+
+  });
+</script>
       </div>
 
-      <button class="btn btn-warning">
+
+      <button class="btn btn-default">
         Update Task
       </button>
       or

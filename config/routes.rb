@@ -2,6 +2,10 @@ Rails.application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   root :to => "tasks#index"
+
+# Route for the TODAY view:
+get "/today", :controller => "today", :action=> "index"
+
   # Routes for the Tagging resource:
   # CREATE
   get "/taggings/new", :controller => "taggings", :action => "new"

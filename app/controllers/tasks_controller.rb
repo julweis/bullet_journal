@@ -1,8 +1,8 @@
 class TasksController < ApplicationController
   def index
     @q = Task.ransack(params[:q])
-    @tasks = @q.result(:distinct => true).includes(:user).page(params[:page]).per(10)
-
+    @tasks = @q.result(:distinct => true).includes(:user).page(params[:page]).per(20)
+    @task = Task.new
     render("tasks/index.html.erb")
   end
 
@@ -25,7 +25,7 @@ class TasksController < ApplicationController
     @task.task_signifier = params[:task_signifier]
     @task.task_status = params[:task_status]
     @task.user_id = params[:user_id]
-    @task.date = params[:date]
+    @task.date = Chronic.parse(params[:date])
 
     save_status = @task.save
 
@@ -56,7 +56,7 @@ class TasksController < ApplicationController
     @task.task_signifier = params[:task_signifier]
     @task.task_status = params[:task_status]
     @task.user_id = params[:user_id]
-    @task.date = params[:date]
+    @task.date = Chronic.parse(params[:date])
 
     save_status = @task.save
 

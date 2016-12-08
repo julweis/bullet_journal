@@ -20,11 +20,9 @@
 
       <!-- Label and input for user_id -->
       <div class="form-group">
-        <label for="user_id" class="control-label">
-          User
-        </label>
+        
 
-        <%= select_tag(:user_id, options_from_collection_for_select(User.all, :id, :created_at, @note.user_id), :class => "form-control") %>
+        <%= select_tag(:user_id, options_from_collection_for_select(User.all, :id, :username, @note.user_id), :class => "hidden") %>
       </div>
 
       <!-- Label and input for note -->

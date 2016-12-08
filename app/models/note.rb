@@ -13,5 +13,6 @@ class Note < ApplicationRecord
              :source => :category
 
   # Validations
-
+  validates :note,  :presence => true
+  validates :date,  :presence => true
 end

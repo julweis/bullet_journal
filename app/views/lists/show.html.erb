@@ -1,56 +1,59 @@
 <div class="page-header">
-  <h3>List #<%= @list.id %></h3>
+  <h3>List: <%= @list.list %> <div class="btn-group">
+    <button type="button" class="btn btn-link" ><a href="/lists/<%= @list.id %>/edit" ><i class="fa fa-lg fa-pencil-square-o" aria-hidden="true"></i></a>
+    </button>
+    <button type="button" class="btn btn-link"><a href="/delete_list/<%= @list.id %>"  rel="nofollow"><i class="fa fa-lg fa-trash-o" aria-hidden="true"></i></a>
+    </button>
+  </div></h3>
 </div>
 
-<div class="row">
-  <div class="col-md-12 mb-2">
-    <dl class="dl-horizontal">
-      <dt>List</dt>
-      <dd><%= @list.list %></dd>
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table table-striped table-hover">
+          <tr>
 
-    </dl>
+            <th>Note</th>
+            <th>Date added</th>
+            <th>Actions</th>
+          </tr>
 
-    <div class="btn-group btn-group-justified">
-      <a href="/lists" class="btn btn-primary">
-        Back
-      </a>
-      <a href="/lists/<%= @list.id %>/edit" class="btn btn-warning">
-        Edit
-      </a>
-      <a href="/delete_list/<%= @list.id %>" class="btn btn-danger" rel="nofollow">
-        Delete
-      </a>
-    </div>
-  </div>
-</div>
+    <% @list.notes.where(:user_id => current_user.id).each do |note| %>
+
+
+
+
+          <tr>
+
+
+            <td><%= note.note %></td>
+            <td><%= note.date.to_date.strftime("%B %d, %Y") %></td>
+            <td>
+
+              <div class="btn-group" role="group">
+
+                <button type="button" class="btn btn-link" ><a href="/notes/<%= note.id %>/edit" ><i class="fa fa-lg fa-pencil-square-o" aria-hidden="true"></i></a>
+                </button>
+                <button type="button" class="btn btn-link"><a href="/delete_note/<%= note.id %>"  rel="nofollow"><i class="fa fa-lg fa-trash-o" aria-hidden="true"></i></a>
+                </button>
+              </div>
+            </td>
+      </tr>
+        </div>
+
+
+    <% end %>
+
+  </table>
+
 
 <!-- A List has many taggings -->
 
 <div class="row">
   <div class="col-md-12">
     <ul class="list-group">
-      <li class="list-group-item list-group-item-info">
-        Taggings
+      <li class="list-group-item list-group-item">
+        <strong>Add a note to <%= @list.list %></strong>
       </li>
-
-      <% @list.taggings.each do |tagging| %>
-        <li class="list-group-item">
-          <a href="/taggings/<%= tagging.id %>">
-            <%= tagging.note_id %>
-          </a>
-          <div class="btn-group btn-group-xs pull-right">
-            <a href="/taggings/<%= tagging.id %>" class="btn btn-primary">
-              <i class="fa fa-search-plus"></i>
-            </a>
-            <a href="/taggings/<%= tagging.id %>/edit" class="btn btn-warning">
-              <i class="fa fa-edit"></i>
-            </a>
-            <a href="/delete_tagging/<%= tagging.id %>" class="btn btn-danger" rel="nofollow">
-              <i class="fa fa-trash-o"></i>
-            </a>
-          </div>
-        </li>
-      <% end %>
 
       <li class="list-group-item">
         <form action="/create_tagging" method="post">
@@ -59,18 +62,16 @@
 
       <!-- Label and input for note_id -->
       <div class="form-group">
-        <label for="note_id" class="control-label">
-          Note
-        </label>
 
-        <%= select_tag(:note_id, options_from_collection_for_select(Note.all, :id, :created_at), :class => "form-control") %>
+
+        <%= select_tag(:note_id, options_from_collection_for_select(Note.all, :id, :note), :class => "form-control") %>
       </div>
 
       <!-- Label and input for list_id -->
       <input type="hidden" name="list_id" value="<%= @list.id %>">
 
-      <button class="btn btn-block btn-success">
-        Create Tagging
+      <button class="btn btn-block btn-default">
+        Add a note
       </button>
     </form>
       </li>
@@ -80,31 +81,8 @@
 
 <!-- A List has many notes -->
 
-<div class="row">
-  <div class="col-md-12">
-    <ul class="list-group">
-      <li class="list-group-item list-group-item-info">
-        Notes
-      </li>
+</div>
+</div>
 
-      <% @list.notes.each do |note| %>
-        <li class="list-group-item">
-          <a href="/notes/<%= note.id %>">
-            <%= note.created_at %>
-          </a>
-          <div class="btn-group btn-group-xs pull-right">
-            <a href="/notes/<%= note.id %>" class="btn btn-primary">
-              <i class="fa fa-search-plus"></i>
-            </a>
-            <a href="/notes/<%= note.id %>/edit" class="btn btn-warning">
-              <i class="fa fa-edit"></i>
-            </a>
-            <a href="/delete_note/<%= note.id %>" class="btn btn-danger" rel="nofollow">
-              <i class="fa fa-trash-o"></i>
-            </a>
-          </div>
-        </li>
-      <% end %>
-    </ul>
   </div>
 </div>

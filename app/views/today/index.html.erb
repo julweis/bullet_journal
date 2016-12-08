@@ -1,0 +1,315 @@
+<div class="page-header">
+  <h2>
+    today.
+
+  </h2>
+
+<div class="row mb-1">
+<div class="col-md-6">
+  <div class="panel panel-default">
+    <div class="panel-body">
+
+      <form action="/create_task" method="post">
+        <!-- Hidden input for authenticity token to protect from forgery -->
+        <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+        <input type="text" id="task" name="task" placeholder="Quick-add a task..." class="form-control" >
+
+        <input type="hidden" id="task_status" name="task_status" placeholder="Task status" class="form-control" value="open">
+
+          <input type="hidden" id="task_signifier" name="task_signifier"  class="form-control" value="">
+
+        <input type="hidden" id="date" name="date"  value="today">
+
+        <input type="hidden" name="user_id" value="<%=current_user.id%>">
+
+      </form>
+    </div>
+</div>
+
+
+  <!--TABLE HEADERS -->
+
+  <% @tasks.where(:user_id => current_user.id).group_by(&:date).each do |date, tasks| %>
+
+
+    <% if date.to_date.strftime("%Y-%m-%d") == Date.today.to_s%>
+    <table class="table table-striped table-hover">
+      <tr> <td colspan="5"><h4>tasks for <%= date.strftime("%B %d, %Y") %></h4></td>
+      </tr>
+
+      <tr>
+
+        <th> </th>
+        <th> </th>
+        <th>Task</th>
+        <th>Actions</th>
+      </tr>
+      <% tasks.each do |task| %>
+    <tr>
+      <!--TASK SIGNIFIER  -->
+      <td>
+        <% if task.task_signifier == "prioritize" %>
+
+        <!--form to remove prioritize signifier-->
+        <form action="/update_task/<%= task.id %>" method="post">
+
+          <!-- Hidden input for authenticity token to protect from forgery -->
+          <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+          <input type="hidden" name="user_id" value="<%= current_user.id %>">
+
+          <input type="hidden" name="task_status"  class="form-control" value="<%= task.task_status %>">
+          <input type="hidden" name="task_signifier"  value="">
+          <input type="hidden" name="task"  value="<%= task.task %>">
+          <input type="hidden" name="date"  value="<%= task.date %>">
+          <div class="btn-group">
+            <button class="btn btn-link">
+              <i class="fa fa-lg fa-exclamation" aria-hidden="true"></i>
+            </button>
+          </div>
+        </form>
+
+        <% elsif task.task_signifier == "explore"%>
+
+        <!--form to remove explore signifier-->
+        <form action="/update_task/<%= task.id %>" method="post">
+
+          <!-- Hidden input for authenticity token to protect from forgery -->
+          <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+          <input type="hidden" name="user_id" value="<%= current_user.id %>">
+
+          <input type="hidden" name="task_status"  class="form-control" value="<%= task.task_status %>">
+          <input type="hidden" name="task_signifier"  value="">
+          <input type="hidden" name="task"  value="<%= task.task %>">
+
+
+          <input type="hidden" name="date"  value="<%= task.date %>">
+          <div class="btn-group">
+            <button class="btn btn-link">
+              <i class=" fa-lg fa fa-map" aria-hidden="true"></i>
+            </button>
+          </div>
+        </form>
+        <% else %>
+
+        <%end %>
+      </td>
+      <td>
+        <!-- TASK STATUS COLUMN-->
+        <% if task.task_status == "open" %>
+
+        <!--form to change task to complete-->
+        <form action="/update_task/<%= task.id %>" method="post">
+
+          <!-- Hidden input for authenticity token to protect from forgery -->
+          <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+          <input type="hidden" name="user_id" value="<%= current_user.id %>">
+
+          <input type="hidden" name="task_status"  class="form-control" value="complete">
+          <input type="hidden" name="task_signifier"  value="<%= task.task_signifier %>">
+          <input type="hidden" name="task"  value="<%= task.task %>">
+
+
+          <input type="hidden" name="date"  value="<%= task.date %>">
+
+          <button class="btn btn-link">
+            <i class="fa fa-lg fa-square-o" aria-hidden="true"></i>
+          </button>
+        </form>
+
+        <% elsif %>
+
+        <!--form to change task back to open-->
+        <form action="/update_task/<%= task.id %>" method="post">
+
+          <!-- Hidden input for authenticity token to protect from forgery -->
+          <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+          <input type="hidden" name="user_id" value="<%= current_user.id %>">
+
+          <input type="hidden" name="task_status"  class="form-control" value="open">
+
+          <input type="hidden" name="task"  value="<%= task.task %>">
+
+          <input type="hidden" name="task_signifier"  value="<%= task.task_signifier %>">
+
+          <input type="hidden" name="date"  value="<%= task.date %>">
+
+          <button class="btn btn-link">
+            <i class="fa fa-lg fa-check-square-o" aria-hidden="true"></i>
+          </button>
+        </form>
+        <% else %>
+
+
+        <% end %>
+      </td>
+
+      <!-- TASK COLUMN -->
+      <td>
+        <%= task.task %></a>
+      </td>
+
+      <!-- USER COLUMN -->
+      <!--  <td>
+      <% if task.user.present? %>
+      <a href="/users/<%= task.user.id %>">
+      <%= task.user.username %>
+    </a>
+    <% end %>
+  </td> -->
+
+  <!-- DATE COLUMN -->
+
+  <!--<td><%= task.date %></td> -->
+  <td>
+
+    <!--BUTTON GROUP COLUMN -->
+
+    <div class="btn-group" role="group">
+
+      <button type="button" class="btn btn-link" "><a href="/tasks/<%= task.id %>/edit" ><i class="fa fa-lg fa-pencil-square-o" aria-hidden="true"></i></a>
+      </button>
+      <button type="button" class="btn btn-link"><a href="/delete_task/<%= task.id %>"  rel="nofollow"><i class="fa fa-lg fa-trash-o" aria-hidden="true"></i></a>
+      </button>
+
+      <div class="btn-group" role="group">
+        <% if task.task_signifier != "prioritize" %>
+        <form action="/update_task/<%= task.id %>" method="post">
+
+          <!-- Hidden input for authenticity token to protect from forgery -->
+          <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+          <input type="hidden" name="user_id" value="<%= current_user.id %>">
+
+          <input type="hidden" name="task_status"  class="form-control" value="<%= task.task_status %>">
+
+          <input type="hidden" name="task"  value="<%= task.task %>">
+
+          <input type="hidden" name="task_signifier"  value="prioritize">
+
+          <input type="hidden" name="date"  value="<%= task.date %>">
+
+
+          <button class=" btn btn-link">
+            <i class="fa fa-lg fa-exclamation-circle" aria-hidden="true"></i>
+          </button>
+
+        </form>
+
+      </div>
+
+
+      <% end %>
+
+      <% if task.task_signifier != "explore" %>
+      <div class="btn-group" role="group">
+        <form action="/update_task/<%= task.id %>" method="post">
+
+          <!-- Hidden input for authenticity token to protect from forgery -->
+          <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+          <input type="hidden" name="user_id" value="<%= current_user.id %>">
+
+          <input type="hidden" name="task_status"  class="form-control" value="<%= task.task_status %>">
+
+          <input type="hidden" name="task"  value="<%= task.task %>">
+
+          <input type="hidden" name="task_signifier"  value="explore">
+
+          <input type="hidden" name="date"  value="<%= task.date %>">
+
+
+          <button class=" btn btn-link">
+            <i class="fa fa-lg fa-map-o" aria-hidden="true"></i>
+          </button>
+        </form>
+      </div>
+      <% end %>
+<% end %>
+    </div>
+</td>
+</tr>
+  <% end %>
+<% end %>
+</table>
+</div>
+
+<!-- NOTES SECTION -->
+
+<div class="col-md-6">  <div class="panel panel-default">
+  <div class="panel-body">
+
+    <form action="/create_note" method="post">
+      <!-- Hidden input for authenticity token to protect from forgery -->
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+      <input type="text" id="note" name="note" placeholder="Quick-add a note..." class="form-control" >
+
+
+      <input type="hidden" id="date" name="date"  value="today">
+
+      <input type="hidden" name="user_id" value="<%=current_user.id%>">
+
+    </form>
+  </div>
+</div>
+<table class="table table-striped table-hover">
+  <tr>
+
+    <td colspan="3"><h4>notes added <%=Date.today.strftime("%B %d, %Y") %></h4></td>
+
+
+  </tr>
+  <tr>
+    <th> Note</th>
+    <th>Actions</th>
+</tr>
+  <% @notes.where(:user_id => current_user.id).each do |note| %>
+  <tr>
+
+<% if note.date.to_date.strftime("%Y-%m-%d") == Date.today.to_s%>
+    <td><%= note.note %></td>
+
+    <td>
+
+      <div class="btn-group" role="group">
+
+        <button type="button" class="btn btn-link" ><a href="/notes/<%= note.id %>/edit" ><i class="fa fa-lg fa-pencil-square-o" aria-hidden="true"></i></a>
+        </button>
+        <button type="button" class="btn btn-link"><a href="/delete_note/<%= note.id %>"  rel="nofollow"><i class="fa fa-lg fa-trash-o" aria-hidden="true"></i></a>
+        </button>
+
+<!-- FORM TO ADD TO LIST-->
+
+        <form action="/create_tagging" method="post">
+      <!-- Hidden input for authenticity token to protect from forgery -->
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+      <!-- Label and input for note_id -->
+      <input type="hidden" name="note_id" value="<%= note.id %>">
+
+        <!-- Label and input for list_id -->
+        <div class="form-group">
+
+          <%= select_tag(:list_id, options_from_collection_for_select(List.all, :id, :list), :class => "form-control") %>
+
+<span class="input-group-btn">
+        <button class="btn btn-default">
+          Add
+        </button>
+         </span>
+           </div>
+      </form>
+    </td>
+  </tr>
+  <% end %>
+  <% end %>
+</table>
+<%= paginate @tasks, theme: 'twitter-bootstrap-4' %>
+<%= paginate @notes, theme: 'twitter-bootstrap-4' %>
+</div>
+</div>

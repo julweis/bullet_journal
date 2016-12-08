@@ -6,5 +6,6 @@ class Task < ApplicationRecord
   # Indirect associations
 
   # Validations
-
+  validates :task,  :presence => true
+    validates :date,  :presence => true
 end

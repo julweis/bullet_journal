@@ -1,7 +1,7 @@
 class NotesController < ApplicationController
   def index
     @q = Note.ransack(params[:q])
-    @notes = @q.result(:distinct => true).includes(:user, :taggings, :lists).page(params[:page]).per(10)
+    @notes = @q.result(:distinct => true).includes(:user, :taggings, :lists).page(params[:page]).per(20)
 
     render("notes/index.html.erb")
   end
@@ -24,7 +24,7 @@ class NotesController < ApplicationController
 
     @note.user_id = params[:user_id]
     @note.note = params[:note]
-    @note.date = params[:date]
+    @note.date = Chronic.parse(params[:date])
 
     save_status = @note.save
 
@@ -53,7 +53,7 @@ class NotesController < ApplicationController
 
     @note.user_id = params[:user_id]
     @note.note = params[:note]
-    @note.date = params[:date]
+    @note.date = Chronic.parse(params[:date])
 
     save_status = @note.save
 

@@ -9,7 +9,7 @@
 <% end %>
 
 <div class="page-header">
-  <h3>Edit List #<%= @list.id %></h3>
+  <h3>Edit List: <%= @list.list %></h3>
 </div>
 
 <div class="row">
@@ -27,7 +27,7 @@
         <input type="text" id="list" name="list" placeholder="List" class="form-control" value="<%= @list.list %>">
       </div>
 
-      <button class="btn btn-warning">
+      <button class="btn btn-default">
         Update List
       </button>
       or
