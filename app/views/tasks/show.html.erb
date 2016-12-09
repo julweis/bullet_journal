@@ -1,5 +1,13 @@
 <div class="page-header">
-  <h3>Task #<%= @task.id %></h3>
+  <h3>view task <div class="btn-group" role="group">
+
+    <button type="button" class="btn btn-link" "><a href="/tasks/<%= @task.id %>/edit" ><i class="fa fa-lg fa-pencil-square-o" aria-hidden="true"></i></a>
+    </button>
+    <button type="button" class="btn btn-link"><a href="/delete_task/<%= @task.id %>"  rel="nofollow"><i class="fa fa-lg fa-trash-o" aria-hidden="true"></i></a>
+    </button>
+  </div>
+  </h3>
+
 </div>
 
 <div class="row">
@@ -8,36 +16,20 @@
       <dt>Task</dt>
       <dd><%= @task.task %></dd>
 
-      <dt>Task signifier</dt>
+      <dt>Signifier</dt>
       <dd><%= @task.task_signifier %></dd>
 
-      <dt>Task status</dt>
+      <dt>Status</dt>
       <dd><%= @task.task_status %></dd>
 
-      <dt>User</dt>
-      <dd>
-        <% if @task.user.present? %>
-          <a href="/users/<%= @task.user_id %>">
-            <%= @task.user.username %>
-          </a>
-        <% end %>
-      </dd>
+
+
 
       <dt>Date</dt>
-      <dd><%= @task.date %></dd>
+      <dd><%= @task.date.strftime("%B %d, %Y")%></dd>
 
     </dl>
 
-    <div class="btn-group btn-group-justified">
-      <a href="/tasks" class="btn btn-primary">
-        Back
-      </a>
-      <a href="/tasks/<%= @task.id %>/edit" class="btn btn-warning">
-        Edit
-      </a>
-      <a href="/delete_task/<%= @task.id %>" class="btn btn-danger" rel="nofollow">
-        Delete
-      </a>
-    </div>
+    
   </div>
 </div>

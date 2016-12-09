@@ -267,6 +267,7 @@
   <tr>
     <th> Note</th>
     <th>Actions</th>
+    <th>Add to list</th>
 </tr>
   <% @notes.where(:user_id => current_user.id).each do |note| %>
   <tr>
@@ -282,9 +283,9 @@
         </button>
         <button type="button" class="btn btn-link"><a href="/delete_note/<%= note.id %>"  rel="nofollow"><i class="fa fa-lg fa-trash-o" aria-hidden="true"></i></a>
         </button>
-
+</td>
 <!-- FORM TO ADD TO LIST-->
-
+<td>
         <form action="/create_tagging" method="post">
       <!-- Hidden input for authenticity token to protect from forgery -->
       <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
@@ -299,7 +300,7 @@
 
 <span class="input-group-btn">
         <button class="btn btn-default">
-          Add
+          Add to list
         </button>
          </span>
            </div>
